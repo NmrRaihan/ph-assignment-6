@@ -21,6 +21,7 @@ const PLAN_CAP = 5
 export function PlanProvider({ children }: { children: ReactNode }) {
   const [plan, setPlan] = useState<Workout[]>([])
   const [saved, setSaved] = useState<Workout[]>([])
+  const [hydrated, setHydrated] = useState(false)
 
   // Load from localStorage once, on first mount in the browser.
   useEffect(() => {
@@ -28,16 +29,21 @@ export function PlanProvider({ children }: { children: ReactNode }) {
     const storedSaved = localStorage.getItem(SAVED_KEY)
     if (storedPlan) setPlan(JSON.parse(storedPlan))
     if (storedSaved) setSaved(JSON.parse(storedSaved))
+    setHydrated(true)
   }, [])
 
-  // Keep localStorage in sync whenever either list changes.
+  // Only start writing back to localStorage AFTER the initial load above
+  // has completed — otherwise this fires on mount with the empty initial
+  // state and wipes out whatever was just loaded.
   useEffect(() => {
+    if (!hydrated) return
     localStorage.setItem(PLAN_KEY, JSON.stringify(plan))
-  }, [plan])
+  }, [plan, hydrated])
 
   useEffect(() => {
+    if (!hydrated) return
     localStorage.setItem(SAVED_KEY, JSON.stringify(saved))
-  }, [saved])
+  }, [saved, hydrated])
 
   function addToPlan(workout: Workout): boolean {
     if (plan.some((w) => w.id === workout.id)) return false

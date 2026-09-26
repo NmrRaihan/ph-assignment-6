@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { getWorkoutById } from '@/lib/api'
+import WorkoutActions from '@/components/WorkoutActions'
 
 interface WorkoutDetailPageProps {
   params: Promise<{ id: string }>
@@ -43,7 +44,7 @@ export default async function WorkoutDetailPage({ params }: WorkoutDetailPagePro
     <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="grid gap-10 lg:grid-cols-2">
         <div className="relative h-80 w-full overflow-hidden rounded-xl border border-border lg:h-full">
-          <Image src={image} alt={name} fill className="object-cover" />
+          <Image src={image} alt={name} fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
         </div>
 
         <div>
@@ -86,14 +87,7 @@ export default async function WorkoutDetailPage({ params }: WorkoutDetailPagePro
             </ol>
           </div>
 
-          <div className="mt-8 flex flex-wrap gap-3">
-            <button className="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground transition hover:opacity-90">
-              + Add to Today&apos;s Plan
-            </button>
-            <button className="rounded-full border border-border px-6 py-3 text-sm font-semibold text-foreground transition hover:border-accent">
-              ♡ Save for Later
-            </button>
-          </div>
+          <WorkoutActions workout={workout} />
         </div>
       </div>
     </main>

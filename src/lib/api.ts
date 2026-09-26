@@ -11,7 +11,10 @@ export async function getAllWorkouts(): Promise<Workout[]> {
 }
 
 export async function getWorkoutById(id: string): Promise<Workout | null> {
-  const res = await fetch(`${API_BASE}/${id}`)
+  const url = `${API_BASE}/${id}`
+  console.log('Fetching:', url)
+  const res = await fetch(url)
+  console.log('Status:', res.status)
   if (!res.ok) {
     return null
   }

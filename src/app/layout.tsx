@@ -3,6 +3,8 @@ import { Geist, Geist_Mono, Oswald } from "next/font/google";
 import "./globals.css";
 import Navbar from "../components/Navbar";
 import { PlanProvider } from '@/context/PlanContext'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <PlanProvider>
           <Navbar />
           {children}
+          <ToastContainer position="top-right" autoClose={2500} newestOnTop />
         </PlanProvider>
       </body>
     </html>
