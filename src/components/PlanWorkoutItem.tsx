@@ -30,22 +30,24 @@ export default function PlanWorkoutItem({ workout, variant }: PlanWorkoutItemPro
   }
 
   return (
-    <div className="flex items-center gap-4 rounded-xl border border-border bg-surface p-4">
-      <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg">
-        <Image src={image} alt={name} fill sizes="64px" className="object-cover" />
-      </div>
+    <div className="flex flex-col gap-4 rounded-xl border border-border bg-surface p-4 sm:flex-row sm:items-center">
+      <div className="flex items-center gap-4">
+        <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg">
+          <Image src={image} alt={name} fill sizes="64px" className="object-cover" />
+        </div>
 
-      <div className="min-w-0 flex-1">
-        <p className="truncate font-display font-bold uppercase text-foreground">{name}</p>
-        <p className="text-xs text-muted">{equipment}</p>
-        <div className="mt-1 flex items-center gap-3 text-xs text-muted">
-          <span>⏱ {duration} min</span>
-          <span>🔥 {caloriesBurned} kcal</span>
-          <span>⭐ {rating}</span>
+        <div className="min-w-0 flex-1">
+          <p className="truncate font-display font-bold uppercase text-foreground">{name}</p>
+          <p className="text-xs text-muted">{equipment}</p>
+          <div className="mt-1 flex items-center gap-3 text-xs text-muted">
+            <span>⏱ {duration} min</span>
+            <span>🔥 {caloriesBurned} kcal</span>
+            <span>⭐ {rating}</span>
+          </div>
         </div>
       </div>
 
-      <div className="flex flex-shrink-0 items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2 sm:flex-shrink-0">
         <Link
           href={`/workout/${id}`}
           className="rounded-full border border-border px-3 py-1.5 text-xs font-semibold text-foreground transition hover:border-accent"
