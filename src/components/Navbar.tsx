@@ -2,19 +2,16 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { usePlan } from '@/context/PlanContext'
 
 const NAV_LINKS = [
   { label: 'Workout', href: '/' },
   { label: 'My Plan', href: '/my-plan' },
 ]
 
-interface NavbarProps {
-  planCount: number
-  savedCount: number
-}
-
-export default function Navbar({ planCount, savedCount }: NavbarProps) {
+export default function Navbar() {
   const pathname = usePathname()
+  const { plan, saved } = usePlan()
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur">
@@ -28,10 +25,7 @@ export default function Navbar({ planCount, savedCount }: NavbarProps) {
             const isActive = pathname === link.href
             return (
               <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className={isActive ? 'text-accent' : 'text-muted transition hover:text-foreground'}
-                >
+                <Link href={link.href} className={isActive ? 'text-accent' : 'text-muted transition hover:text-foreground'}>
                   {link.label}
                 </Link>
               </li>
@@ -40,17 +34,11 @@ export default function Navbar({ planCount, savedCount }: NavbarProps) {
         </ul>
 
         <div className="flex items-center gap-3">
-          <Link
-            href="/my-plan"
-            className="rounded-full bg-accent px-3 py-1.5 text-xs font-semibold text-accent-foreground"
-          >
-            Plan {planCount}
+          <Link href="/my-plan" className="rounded-full bg-accent px-3 py-1.5 text-xs font-semibold text-accent-foreground">
+            Plan {plan.length}
           </Link>
-          <Link
-            href="/my-plan"
-            className="rounded-full border border-border px-3 py-1.5 text-xs font-semibold text-foreground"
-          >
-            Saved {savedCount}
+          <Link href="/my-plan" className="rounded-full border border-border px-3 py-1.5 text-xs font-semibold text-foreground">
+            Saved {saved.length}
           </Link>
         </div>
       </nav>
