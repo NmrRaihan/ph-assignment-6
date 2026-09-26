@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💪 FitLog — Workout Library
 
-## Getting Started
+FitLog is a dark, no-nonsense gym companion built with Next.js. Browse a library of 12 workouts
+pulled from a live API, dig into the details of any lift, and build out today's plan — track what
+you're doing, save what you want to do later, and check things off as you go.
 
-First, run the development server:
+## 🛠️ Technologies Used
+
+- **Next.js 16 (App Router) + TypeScript** — routing, layouts, and typed data throughout
+- **Tailwind CSS v4** — dark theme + neon accent color defined once via CSS theme tokens
+- **React Context + localStorage** — shared Plan/Saved state across pages that survives a refresh
+- **React-Toastify** — toast notifications for every plan/save/remove action
+- Data fetched live from a public FitLog API (`api.abcz.workers.dev`)
+
+## ✨ Features
+
+1. **Live workout library** — all 12 workouts are fetched from the API at request time and rendered
+   in a responsive grid (3 columns on desktop, 2 on tablet, 1 on mobile), each card showing its image,
+   muscle-group tags, equipment, and a duration/calories/rating stats row.
+2. **Sort by Duration, Calories, or Rating** — a dropdown re-sorts the library instantly without
+   re-fetching anything, using the data already loaded.
+3. **Dynamic workout detail pages** — every card links to its own `/workout/[id]` page with a full
+   spec table and step-by-step instructions, generated from one shared template rather than 12
+   separate files.
+4. **Plan & Saved tracking that persists** — "Add to Today's Plan" and "Save for Later" update shared
+   state visible across every page (the navbar badges update live, from anywhere), and the whole thing
+   survives a page reload via localStorage.
+5. **My Plan dashboard** — a live-updating Exercises/Minutes/Calories summary, tabbed Plan/Saved lists,
+   Mark as Done and Remove actions, and a proper empty state pointing back to the library.
+
+Also included: a custom 404 page for any invalid route, a loading state while the library fetches,
+and toast notifications confirming every add/remove/done action.
+
+## 🚀 Getting Started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+src/
+  app/
+    page.tsx              Home — Hero + Library
+    loading.tsx            loading state for the Home page fetch
+    not-found.tsx          custom 404
+    my-plan/page.tsx        My Plan dashboard
+    workout/[id]/page.tsx   dynamic workout detail page
+  components/               Navbar, Hero, WorkoutCard, WorkoutGrid, SortDropdown,
+                             WorkoutActions, PlanMetrics, PlanWorkoutItem
+  context/PlanContext.tsx   shared Plan/Saved state + localStorage sync
+  lib/api.ts                fetch helpers for the FitLog API
+  types/workout.ts           Workout type, matched to the real API response
+```
